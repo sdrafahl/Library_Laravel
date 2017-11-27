@@ -15,4 +15,10 @@ Route::get('/', function () {
     return view('registration');
 });
 
+Route::get('/login', function() {
+    return view('login');
+});
+
+Route::post('createUser/', 'UserController@createUser');
+
 Route::resource('books', 'BookController');

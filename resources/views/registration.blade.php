@@ -1,6 +1,6 @@
 <html>
     <head>
-
+        <script type="text/javascript" src="{{ URL::asset('js/jquery.js') }}"></script>
     </head>
     <body>
         Username <input type="text" id="username">
@@ -16,7 +16,7 @@
         <input id="checkBox" type="librarian"> Librarian
         <br>
         <button type="button" id="cancel">Cancel</button>
-        <button type="button" id="signUp">signUp</button>
+        <button type="button" id="signUp">Login</button>
     </body>
 
 </html>
