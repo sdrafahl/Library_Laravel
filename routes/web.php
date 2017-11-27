@@ -19,6 +19,6 @@ Route::get('/login', function() {
     return view('login');
 });
 
-Route::post('createUser/', 'UserController@createUser');
+Route::get('/createUser', 'UserController@createUser');
 
 Route::resource('books', 'BookController');

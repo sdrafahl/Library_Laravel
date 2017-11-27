@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Log;
 
 class UserController extends Controller
 {
@@ -13,6 +14,7 @@ class UserController extends Controller
      */
     public function createUser(Request $request)
     {
+        Log::info('Creating User');
         $username = $request->get('username');
         $password = $request->get('password');
         $password2 = $request->get('password2');
@@ -21,6 +23,7 @@ class UserController extends Controller
         $librarian = $request->get('librarian');
 
         if(ctype_alnum($username) && strlen($password) != 0 && $password == $password2 && filter_var($email, FILTER_VALIDATE_EMAIL) && isValidPhone($phone)) {
+            Log::info('User Info is Valid');
             User::create([
                 'name' => $username,
                 'email' => $email,
@@ -28,6 +31,9 @@ class UserController extends Controller
                 'phone' => $phone,
                 'librarian' => $librarian,
             ]);
+            return view('login');
+        } else {
+            Log::info('User Info is not Valid');
         }
     }
 

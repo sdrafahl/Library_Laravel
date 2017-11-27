@@ -21,7 +21,7 @@ class CreateBooksTable extends Migration
             $table->integer('availability')->default(true)->nullable(false);
             $table->timestamps();
 
-            $table->foreign('shelf_id')->reference('id')->on('shelf');
+            //$table->foreign('shelf_id')->reference('id')->on('shelf');
 
         });
     }
