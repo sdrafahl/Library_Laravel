@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 use Log;
 
 class UserController extends Controller
@@ -14,16 +15,18 @@ class UserController extends Controller
      */
     public function createUser(Request $request)
     {
-        Log::info('Creating User');
-        $username = $request->get('username');
-        $password = $request->get('password');
-        $password2 = $request->get('password2');
-        $email = $request->get('emailAddress');
-        $phone = $request->get('phoneNumber');
-        $librarian = $request->get('librarian');
+        $data = $request->all();
+        $data = json_decode(array_keys($data)[0]);
+        $username = $data->username;
+        $password = $data->password;
+        $password2 = $data->password2;
+        $email = $data->emailAddress;
+        $phone = $data->phoneNumber;
+        $librarian = $data->librarian;
 
-        if(ctype_alnum($username) && strlen($password) != 0 && $password == $password2 && filter_var($email, FILTER_VALIDATE_EMAIL) && isValidPhone($phone)) {
-            Log::info('User Info is Valid');
+        Log::info(UserController::validateEMAIL($email));
+
+        if(ctype_alnum($username) && strlen($password) != 0 && $password == $password2 && UserController::validateEMAIL($email) && UserController::isValidPhone($phone)) {
             User::create([
                 'name' => $username,
                 'email' => $email,
@@ -45,5 +48,30 @@ class UserController extends Controller
             return true;
         }
         return false;
+    }
+
+    public function validateEMAIL($email) {
+        if(sizeof(Users::where('email','=',$email)->get()) > 0) {
+            return;
+        }
+        if($email[0] == '@') {
+            return false;
+        }
+        $state = 0;
+        for($i = 0; $i < strlen($email); $i++) {
+            $ch = $email[$i];
+            if($ch == "@" && $state == 0) {
+                $state = 1;
+            }
+
+            if($ch != "@" && $state == 1) {
+                $state = 2;
+            }
+
+            if($ch == "@" && $state == 2) {
+                return false;
+            }
+        }
+        return $state == 2;
     }
 }

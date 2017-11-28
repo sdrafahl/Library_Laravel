@@ -1,3 +1,4 @@
+
 function validate() {
     var user = document.getElementById('username').value;
     var pass1 = document.getElementById('password').value;
