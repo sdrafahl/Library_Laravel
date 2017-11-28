@@ -34,9 +34,14 @@ class UserController extends Controller
                 'phone' => $phone,
                 'librarian' => $librarian,
             ]);
-            return view('login');
+            return response()->json([
+                'success' => 'true',
+            ]);
         } else {
             Log::info('User Info is not Valid');
+            return response()->json([
+                'success' => 'false',
+            ]);
         }
     }
 
@@ -51,8 +56,8 @@ class UserController extends Controller
     }
 
     public function validateEMAIL($email) {
-        if(sizeof(Users::where('email','=',$email)->get()) > 0) {
-            return;
+        if(sizeof(User::where('email','=',$email)->get()) > 0) {
+            return false;
         }
         if($email[0] == '@') {
             return false;

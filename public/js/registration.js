@@ -18,6 +18,7 @@ function validate() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        console.log("Sending Request");
         $.ajax({
             url: '/createUser',
             type: 'GET',
@@ -31,8 +32,14 @@ function validate() {
                 phoneNumber: phone,
                 librarian: isLibrarian,
             }),
-            success: function() {
-                console.log("success");
+            success: function(json) {
+                var data = JSON.parse(json);
+                console.log(data);
+                console.log(data.success);
+                if(data.success == 'true') {
+                    console.log("success");
+                    window.location.href = 'login';
+                }
             },
             error: function(xhr, status, error) {
                 console.log(error);
