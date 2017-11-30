@@ -19,6 +19,32 @@ Route::get('/login', function() {
     return view('login');
 });
 
+Route::get('/menu', function () {
+    return view('menu');
+});
+
+Route::get('/books', function() {
+    return view('books');
+});
+
+Route::get('/shelves', function() {
+    return view('shelves');
+});
+
+Route::get('/add_books', function() {
+    return view('addBook');
+});
+
 Route::get('/createUser', 'UserController@createUser');
 
-Route::resource('books', 'BookController');
+Route::post('/loginRequest', 'UserController@login');
+
+Route::post('/getBookList', 'BookController@getBooks');
+
+Route::post('/addBook', 'BookController@store');
+
+Route::post('/getListOfShelves', 'BookController@getShelves');
+
+Route::post('/setShelf', 'BookController@setShelf');
+
+Route::post('/borrowBook', 'BookController@borrowBook');

@@ -3,29 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Shelf;
+use App\Book;
+use App\Loan;
+use DB;
+use Log;
+use Session;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -40,60 +26,54 @@ class BookController extends Controller
             'shelf' => 'required',
         ]);
 
-        $shelf_id = Shelf::where('shelf_name', $request->get('shelf'))->pluck('id')->first();
+        $shelf_id = DB::table('shelves')->where('name', $request->get('shelf'))->first()->id;
         error_log($shelf_id);
         Book::create([
             'book_name' => $request->get('book_name'),
             'author' => $request->get('author'),
             'shelf_id' => $shelf_id,
         ]);
-
         Session::flash('flash_message', 'Book added successfully!');
-        return view('welcome');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
+    public function getBooks(Request $request) {
+        if(Session::has('name')) {
+            $shelfId = session('shelfId');
+            $books = DB::table('books')->where('shelf_id', $shelfId)->get();
+            $array = array();
+            foreach($books as $book) {
+                array_push($array, $book);
+            }
+            return response()->json($array);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function getShelves() {
+        if(Session::has('name')) {
+            $shelves = DB::table('shelves')->get();
+            $array = array();
+            foreach($shelves as $shelf) {
+                array_push($array, $shelf);
+            }
+            return response()->json($array);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+    public function setShelf(Request $request) {
+        session([
+            'shelfId' => $request->get('shelfId'),
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function borrowBook(Request $request) {
+        $bookId = $request->get('id');
+        DB::statement("UPDATE books SET availability = 0 WHERE id = " . $bookId);
+
+        Loan::create([
+            'user_id' => session('id'),
+            'book_id' => $bookId,
+            'due_date' => date('Y-m-d H:i:s', strtotime("+7 day")),
+            'returned_date' => null,
+        ]);
     }
 }

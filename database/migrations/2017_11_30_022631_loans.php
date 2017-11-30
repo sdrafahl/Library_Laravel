@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateShelfTable extends Migration
+class Loans extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateShelfTable extends Migration
      */
     public function up()
     {
-        Schema::create('shelves', function (Blueprint $table) {
+        Schema::create('loans', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->nullable(false);
+            $table->integer('user_id')->nullable(false);
+            $table->integer('book_id')->nullable(false);
+            $table->date('due_date');
+            $table->date('returned_date')->nullable(true);
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ class CreateShelfTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shelves');
+        Schema::dropIfExists('loans');
     }
 }

@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Shelf;
 use Log;
+use DB;
+
 
 class UserController extends Controller
 {
@@ -23,8 +26,6 @@ class UserController extends Controller
         $email = $data->emailAddress;
         $phone = $data->phoneNumber;
         $librarian = $data->librarian;
-
-        Log::info(UserController::validateEMAIL($email));
 
         if(ctype_alnum($username) && strlen($password) != 0 && $password == $password2 && UserController::validateEMAIL($email) && UserController::isValidPhone($phone)) {
             User::create([
@@ -78,5 +79,30 @@ class UserController extends Controller
             }
         }
         return $state == 2;
+    }
+
+    public function login(Request $request) {
+
+        //Shelf::create([
+        //    'name' => 'Computer Science',
+        //]);
+
+        $data = $request;
+        $user = DB::table('users')->where('name', $data->get('username'))->first();
+        if($data['password'] == $user->password) {
+            session([
+                'user' => 'active',
+                'name' => $data->get('username'),
+                'lib' => $user->librarian,
+                'id' => $user->id,
+            ]);
+            return response()->json([
+                'success' => 'true',
+            ]);
+        } else {
+            return response()->json([
+                'success' => 'false',
+            ]);
+        }
     }
 }

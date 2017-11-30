@@ -3,11 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 
-class Shelf extends Model
+class Loan extends Model
 {
     protected $fillable = [
-        'name'
+        'user_id', 'book_id', 'due_date', 'returned_date'
     ];
 }
