@@ -83,10 +83,6 @@ class UserController extends Controller
 
     public function login(Request $request) {
 
-        //Shelf::create([
-        //    'name' => 'Computer Science',
-        //]);
-
         $data = $request;
         $user = DB::table('users')->where('name', $data->get('username'))->first();
         if($data['password'] == $user->password) {

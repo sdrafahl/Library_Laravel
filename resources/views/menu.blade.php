@@ -23,9 +23,9 @@
                 </div>
                 <a href="/add_books">Add Books</a>
                 <br>
-                <a href="/delete_books">Delete Books</a>
+                <a href="/delete_book">Delete Books</a>
                 <br>
-                <a href="/view_all_shelves">View All Shelves</a>
+                <a href="/loan_record">View Loan Records</a>
                 <br>
             @endif
         @endif

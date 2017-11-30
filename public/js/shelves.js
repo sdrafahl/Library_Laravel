@@ -44,3 +44,25 @@ window.onload = function() {
         },
     });
 }
+
+function addShelf() {
+    $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: '/addShelf',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            'name': document.getElementById('username').value,
+        }),
+        success: function() {
+            location.reload();
+        },
+        error: function(xhr, status, error) {
+                console.log("error");
+        },
+    });
+}

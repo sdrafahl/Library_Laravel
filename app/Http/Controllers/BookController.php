@@ -76,4 +76,16 @@ class BookController extends Controller
             'returned_date' => null,
         ]);
     }
+
+    public function delete(Request $request) {
+        $name = $request->get('name');
+        DB::table('books')->where('book_name', $name)->delete();
+    }
+
+    public function addShelf(Request $request) {
+        $name = $request->get('name');
+        Shelf::create([
+            'name' => $name,
+        ]);
+    }
 }

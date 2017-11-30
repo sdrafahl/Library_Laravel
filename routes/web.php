@@ -35,6 +35,14 @@ Route::get('/add_books', function() {
     return view('addBook');
 });
 
+Route::get('/delete_book', function() {
+    return view('delete');
+});
+
+Route::get('/loan_record', function() {
+    return view('borrow_history');
+});
+
 Route::get('/createUser', 'UserController@createUser');
 
 Route::post('/loginRequest', 'UserController@login');
@@ -48,3 +56,7 @@ Route::post('/getListOfShelves', 'BookController@getShelves');
 Route::post('/setShelf', 'BookController@setShelf');
 
 Route::post('/borrowBook', 'BookController@borrowBook');
+
+Route::post('/deleteBook', 'BookController@delete');
+
+Route::post('/addShelf', 'BookController@addShelf');
