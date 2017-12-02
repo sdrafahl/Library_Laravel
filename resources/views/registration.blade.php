@@ -19,6 +19,8 @@
         <br>
         <button type="button" id="cancel">Cancel</button>
         <button type="button" onclick="validate()" id="signUp">register</button>
+        <div id="error">
+        </div>
     </body>
 
 </html>

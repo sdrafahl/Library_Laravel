@@ -18,10 +18,19 @@ function login() {
             if(json.success == 'true') {
                 console.log("success");
                 window.location.href = '/menu';
+            } else {
+                wrongLogin();
             }
         },
         error: function(xhr, status, error) {
-            console.log("error");
+            wrongLogin();
         },
     });
+}
+
+function wrongLogin() {
+    var div = document.getElementById('error');
+    var p = document.createElement('p');
+    p.innerHTML = "error";
+    div.appendChild(p);
 }

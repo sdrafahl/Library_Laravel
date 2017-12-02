@@ -39,12 +39,17 @@ function validate() {
                 if(data.success == 'true') {
                     console.log("success");
                     window.location.href = 'login';
+                } else {
+                    wrongLogin();
                 }
             },
             error: function(xhr, status, error) {
                 console.log(error);
+                wrongLogin();
             },
         });
+    } else {
+        wrongLogin();
     }
 }
 
@@ -95,4 +100,11 @@ function isValidPhone(phone) {
         }
     }
     return true;
+}
+
+function wrongLogin() {
+    var div = document.getElementById('error');
+    var p = document.createElement('p');
+    p.innerHTML = "error";
+    div.appendChild(p);
 }
